@@ -79,3 +79,16 @@ tacticTest3 = proof applyTactic seeSig
 tacticTest4 : (F :+: H) :<: (H :+: G :+: F)
 tacticTest4 = proof applyTactic seeSig
 
+data Arith a = Lit Int | Plus a a
+
+data Missiles a = LaunchMissiles | Wait a
+
+record Fix : (Type -> Type) -> Type where
+  In : (out : f (Fix f)) -> Fix f
+
+FunExpr : Type
+FunExpr = Fix (Arith :+: Missiles)
+
+fivePlusMissiles : FunExpr
+fivePlusMissiles = In (Inl (Plus (In (Inl (Lit 5))) (In (Inr LaunchMissiles))))
+
